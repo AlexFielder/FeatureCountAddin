@@ -1,0 +1,14 @@
+<Addin Type="Standard">
+  <!--Created for Autodesk Inventor Version 18.0-->
+  <ClassId>{4c631cfe-22db-45dd-b9b5-00c441ca29e6}</ClassId>
+  <ClientId>{4c631cfe-22db-45dd-b9b5-00c441ca29e6}</ClientId>
+  <DisplayName>RunFeatureCountOnAssembly</DisplayName>
+  <Description>RunFeatureCountOnAssembly</Description>
+  <Assembly>RunFeatureCountOnAssemblyAddin\RunFeatureCountOnAssembly.dll</Assembly>
+  <LoadOnStartUp>1</LoadOnStartUp>
+  <UserUnloadable>1</UserUnloadable>
+  <Hidden>0</Hidden>
+  <SupportedSoftwareVersionGreaterThan>17..</SupportedSoftwareVersionGreaterThan>
+  <DataVersion>1</DataVersion>
+  <UserInterfaceVersion>1</UserInterfaceVersion>
+</Addin>

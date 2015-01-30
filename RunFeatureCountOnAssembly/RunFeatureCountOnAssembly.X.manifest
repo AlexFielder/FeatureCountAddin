@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+
+  <assemblyIdentity name="RunFeatureCountOnAssembly" version="1.0.0.0"></assemblyIdentity>
+
+  <clrClass clsid="{4c631cfe-22db-45dd-b9b5-00c441ca29e6}" progid="RunFeatureCountOnAssembly.StandardAddInServer" threadingModel="Both" name="RunFeatureCountOnAssembly.RunFeatureCountOnAssembly.StandardAddInServer" runtimeVersion=""></clrClass>
+
+  <file name="RunFeatureCountOnAssembly.dll" hashalg="SHA1"></file>
+
+</assembly>
