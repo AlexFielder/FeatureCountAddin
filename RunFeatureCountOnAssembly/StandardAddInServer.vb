@@ -189,7 +189,7 @@ Namespace RunFeatureCountOnAssembly
                     If Not oDoc.File.FullFileName.Contains("FACILITY") Then
                         Try
                             Dim FeatureCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                        Where a.Name = "FEATURECOUNT"
+                                                                        Where a.Name.ToUpper = "FEATURECOUNT"
                                                                         Select a).FirstOrDefault()
                             If Not FeatureCountProp Is Nothing Then
                                 If Not FeatureCountProp.Value = oFeats.Count Then
@@ -201,7 +201,7 @@ Namespace RunFeatureCountOnAssembly
                                 SaveRequired = True
                             End If
                             Dim ParamCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                       Where a.Name = "PARAMETERCOUNT"
+                                                                       Where a.Name.ToUpper = "PARAMETERCOUNT"
                                                                        Select a).FirstOrDefault()
                             If Not ParamCountProp Is Nothing Then
                                 If Not ParamCountProp.Value = oParams.Count Then
@@ -212,9 +212,9 @@ Namespace RunFeatureCountOnAssembly
                                 invCustomiPropSet.Add(oParams.Count, "PARAMETERCOUNT")
                                 SaveRequired = True
                             End If
-                            If SaveRequired Then
-                                oDoc.Save() 'try to save the file.
-                            End If
+                            'If SaveRequired Then
+                            '    oDoc.Save() 'try to save the file.
+                            'End If
                             Exit Sub
                         Catch ex As Exception
                             MessageBox.Show("The exception was: " & ex.Message)
@@ -235,7 +235,7 @@ Namespace RunFeatureCountOnAssembly
                         Dim ConstraintCountNeedsUpdating As Boolean = True
                         Try
                             Dim FeatureCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                         Where a.Name = "FEATURECOUNT"
+                                                                         Where a.Name.ToUpper = "FEATURECOUNT"
                                                                          Select a).FirstOrDefault()
                             If Not FeatureCountProp Is Nothing Then
                                 If Not FeatureCountProp.Value = oFeats.Count Then
@@ -247,7 +247,7 @@ Namespace RunFeatureCountOnAssembly
                                 SaveRequired = True
                             End If
                             Dim ParamCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                       Where a.Name = "PARAMETERCOUNT"
+                                                                       Where a.Name.ToUpper = "PARAMETERCOUNT"
                                                                        Select a).FirstOrDefault()
                             If Not ParamCountProp Is Nothing Then
                                 If Not ParamCountProp.Value = oParams.Count Then
@@ -259,7 +259,7 @@ Namespace RunFeatureCountOnAssembly
                                 SaveRequired = True
                             End If
                             Dim OccurrenceCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                            Where a.Name = "OCCURRENCECOUNT"
+                                                                            Where a.Name.ToUpper = "OCCURRENCECOUNT"
                                                                             Select a).FirstOrDefault()
                             If Not OccurrenceCountProp Is Nothing Then
                                 If Not OccurrenceCountProp.Value = Occs.Count Then
@@ -271,7 +271,7 @@ Namespace RunFeatureCountOnAssembly
                                 SaveRequired = True
                             End If
                             Dim ConstraintCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                            Where a.Name = "CONSTRAINTCOUNT"
+                                                                            Where a.Name.ToUpper = "CONSTRAINTCOUNT"
                                                                             Select a).FirstOrDefault()
                             If Not ConstraintCountProp Is Nothing Then
                                 If Not ConstraintCountProp.Value = oConstraints.Count Then
@@ -282,9 +282,9 @@ Namespace RunFeatureCountOnAssembly
                                 invCustomiPropSet.Add(oConstraints.Count, "CONSTRAINTCOUNT")
                                 SaveRequired = True
                             End If
-                            If SaveRequired Then
-                                oDoc.Save() 'try to save the file.
-                            End If
+                            'If SaveRequired Then
+                            '    oDoc.Save() 'try to save the file.
+                            'End If
                             Exit Sub
                         Catch ex As Exception
                             MessageBox.Show("The exception was: " & ex.Message)
