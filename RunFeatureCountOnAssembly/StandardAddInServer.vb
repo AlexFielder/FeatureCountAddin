@@ -177,120 +177,121 @@ Namespace RunFeatureCountOnAssembly
         ''' <remarks></remarks>
         Sub FeatureCount(ByVal oDoc As Inventor.Document)
             Dim SaveRequired As Boolean = False
-            If FileIsReadOnly(oDoc.FullFileName) Then
-                Exit Sub
-            End If
+            'this is commented out because it stops checked-in files outside of the FACILITY/Content Centre and Imported Components from being affected.
+            'If FileIsReadOnly(oDoc.FullFileName) Then
+            '    Exit Sub
+            'End If
             Dim invCustomiPropSet As PropertySet = oDoc.PropertySets.Item("User Defined Properties")
             If TypeOf oDoc Is PartDocument Then
                 Dim partDoc As PartDocument = oDoc
                 Dim oFeats As Inventor.PartFeatures = partDoc.ComponentDefinition.Features
                 Dim oParams As Inventor.Parameters = partDoc.ComponentDefinition.Parameters
-                If Not oDoc.File.FullFileName.Contains("Content") Then 'skip CC and FACILITY files
-                    If Not oDoc.File.FullFileName.Contains("FACILITY") Then
-                        Try
-                            Dim FeatureCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                        Where a.Name.ToUpper = "FEATURECOUNT"
-                                                                        Select a).FirstOrDefault()
-                            If Not FeatureCountProp Is Nothing Then
-                                If Not FeatureCountProp.Value = oFeats.Count Then
-                                    FeatureCountProp.Value = oFeats.Count
-                                    SaveRequired = True
-                                End If
-                            Else
-                                invCustomiPropSet.Add(oFeats.Count, "FEATURECOUNT")
+                If Not oDoc.File.FullFileName.Contains("Content") And Not oDoc.File.FullFileName.Contains("FACILITY") And Not oDoc.File.FullFileName.Contains("Imported Components") Then 'skip CC and FACILITY files
+                    'If Not oDoc.File.FullFileName.Contains("FACILITY") Then
+                    Try
+                        Dim FeatureCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
+                                                                    Where a.Name.ToUpper = "FEATURECOUNT"
+                                                                    Select a).FirstOrDefault()
+                        If Not FeatureCountProp Is Nothing Then
+                            If Not FeatureCountProp.Value = oFeats.Count Then
+                                FeatureCountProp.Value = oFeats.Count
                                 SaveRequired = True
                             End If
-                            Dim ParamCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                       Where a.Name.ToUpper = "PARAMETERCOUNT"
-                                                                       Select a).FirstOrDefault()
-                            If Not ParamCountProp Is Nothing Then
-                                If Not ParamCountProp.Value = oParams.Count Then
-                                    ParamCountProp.Value = oParams.Count
-                                    SaveRequired = True
-                                End If
-                            Else
-                                invCustomiPropSet.Add(oParams.Count, "PARAMETERCOUNT")
+                        Else
+                            invCustomiPropSet.Add(oFeats.Count, "FEATURECOUNT")
+                            SaveRequired = True
+                        End If
+                        Dim ParamCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
+                                                                   Where a.Name.ToUpper = "PARAMETERCOUNT"
+                                                                   Select a).FirstOrDefault()
+                        If Not ParamCountProp Is Nothing Then
+                            If Not ParamCountProp.Value = oParams.Count Then
+                                ParamCountProp.Value = oParams.Count
                                 SaveRequired = True
                             End If
-                            'If SaveRequired Then
-                            '    oDoc.Save() 'try to save the file.
-                            'End If
-                            Exit Sub
-                        Catch ex As Exception
-                            MessageBox.Show("The exception was: " & ex.Message)
-                        End Try
-                    End If
+                        Else
+                            invCustomiPropSet.Add(oParams.Count, "PARAMETERCOUNT")
+                            SaveRequired = True
+                        End If
+                        'If SaveRequired Then
+                        '    oDoc.Save() 'try to save the file.
+                        'End If
+                        Exit Sub
+                    Catch ex As Exception
+                        MessageBox.Show("The exception was: " & ex.Message)
+                    End Try
+                    'End If
                 End If
             ElseIf TypeOf oDoc Is AssemblyDocument Then
-                If Not oDoc.File.FullFileName.Contains("Content") Then 'skip CC and FACILITY files
-                    If Not oDoc.File.FullFileName.Contains("FACILITY") Then
-                        Dim AssyDoc As AssemblyDocument = oDoc
-                        Dim oFeats As Inventor.Features = AssyDoc.ComponentDefinition.Features
-                        Dim oParams As Inventor.Parameters = AssyDoc.ComponentDefinition.Parameters
-                        Dim oConstraints As Inventor.AssemblyConstraints = AssyDoc.ComponentDefinition.Constraints
-                        Dim Occs As Inventor.ComponentOccurrences = AssyDoc.ComponentDefinition.Occurrences
-                        Dim FeatureCountNeedsUpdating As Boolean = True
-                        Dim ParamCountNeedsUpdating As Boolean = True
-                        Dim OccsCountNeedsUpdating As Boolean = True
-                        Dim ConstraintCountNeedsUpdating As Boolean = True
-                        Try
-                            Dim FeatureCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                         Where a.Name.ToUpper = "FEATURECOUNT"
-                                                                         Select a).FirstOrDefault()
-                            If Not FeatureCountProp Is Nothing Then
-                                If Not FeatureCountProp.Value = oFeats.Count Then
-                                    FeatureCountProp.Value = oFeats.Count
-                                    SaveRequired = True
-                                End If
-                            Else
-                                invCustomiPropSet.Add(oFeats.Count, "FEATURECOUNT")
+                If Not oDoc.File.FullFileName.Contains("Content") And Not oDoc.File.FullFileName.Contains("FACILITY") And Not oDoc.File.FullFileName.Contains("Imported Components") Then 'skip CC and FACILITY files
+                    'If Not oDoc.File.FullFileName.Contains("FACILITY") Then
+                    Dim AssyDoc As AssemblyDocument = oDoc
+                    Dim oFeats As Inventor.Features = AssyDoc.ComponentDefinition.Features
+                    Dim oParams As Inventor.Parameters = AssyDoc.ComponentDefinition.Parameters
+                    Dim oConstraints As Inventor.AssemblyConstraints = AssyDoc.ComponentDefinition.Constraints
+                    Dim Occs As Inventor.ComponentOccurrences = AssyDoc.ComponentDefinition.Occurrences
+                    Dim FeatureCountNeedsUpdating As Boolean = True
+                    Dim ParamCountNeedsUpdating As Boolean = True
+                    Dim OccsCountNeedsUpdating As Boolean = True
+                    Dim ConstraintCountNeedsUpdating As Boolean = True
+                    Try
+                        Dim FeatureCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
+                                                                     Where a.Name.ToUpper = "FEATURECOUNT"
+                                                                     Select a).FirstOrDefault()
+                        If Not FeatureCountProp Is Nothing Then
+                            If Not FeatureCountProp.Value = oFeats.Count Then
+                                FeatureCountProp.Value = oFeats.Count
                                 SaveRequired = True
                             End If
-                            Dim ParamCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                       Where a.Name.ToUpper = "PARAMETERCOUNT"
-                                                                       Select a).FirstOrDefault()
-                            If Not ParamCountProp Is Nothing Then
-                                If Not ParamCountProp.Value = oParams.Count Then
-                                    ParamCountProp.Value = oParams.Count
-                                    SaveRequired = True
-                                End If
-                            Else
-                                invCustomiPropSet.Add(oParams.Count, "PARAMETERCOUNT")
+                        Else
+                            invCustomiPropSet.Add(oFeats.Count, "FEATURECOUNT")
+                            SaveRequired = True
+                        End If
+                        Dim ParamCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
+                                                                   Where a.Name.ToUpper = "PARAMETERCOUNT"
+                                                                   Select a).FirstOrDefault()
+                        If Not ParamCountProp Is Nothing Then
+                            If Not ParamCountProp.Value = oParams.Count Then
+                                ParamCountProp.Value = oParams.Count
                                 SaveRequired = True
                             End If
-                            Dim OccurrenceCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                            Where a.Name.ToUpper = "OCCURRENCECOUNT"
-                                                                            Select a).FirstOrDefault()
-                            If Not OccurrenceCountProp Is Nothing Then
-                                If Not OccurrenceCountProp.Value = Occs.Count Then
-                                    OccurrenceCountProp.Value = Occs.Count
-                                    SaveRequired = True
-                                End If
-                            Else
-                                invCustomiPropSet.Add(Occs.Count, "OCCURRENCECOUNT")
+                        Else
+                            invCustomiPropSet.Add(oParams.Count, "PARAMETERCOUNT")
+                            SaveRequired = True
+                        End If
+                        Dim OccurrenceCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
+                                                                        Where a.Name.ToUpper = "OCCURRENCECOUNT"
+                                                                        Select a).FirstOrDefault()
+                        If Not OccurrenceCountProp Is Nothing Then
+                            If Not OccurrenceCountProp.Value = Occs.Count Then
+                                OccurrenceCountProp.Value = Occs.Count
                                 SaveRequired = True
                             End If
-                            Dim ConstraintCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
-                                                                            Where a.Name.ToUpper = "CONSTRAINTCOUNT"
-                                                                            Select a).FirstOrDefault()
-                            If Not ConstraintCountProp Is Nothing Then
-                                If Not ConstraintCountProp.Value = oConstraints.Count Then
-                                    ConstraintCountProp.Value = oConstraints.Count
-                                    SaveRequired = True
-                                End If
-                            Else
-                                invCustomiPropSet.Add(oConstraints.Count, "CONSTRAINTCOUNT")
+                        Else
+                            invCustomiPropSet.Add(Occs.Count, "OCCURRENCECOUNT")
+                            SaveRequired = True
+                        End If
+                        Dim ConstraintCountProp As Inventor.Property = (From a As Inventor.Property In invCustomiPropSet
+                                                                        Where a.Name.ToUpper = "CONSTRAINTCOUNT"
+                                                                        Select a).FirstOrDefault()
+                        If Not ConstraintCountProp Is Nothing Then
+                            If Not ConstraintCountProp.Value = oConstraints.Count Then
+                                ConstraintCountProp.Value = oConstraints.Count
                                 SaveRequired = True
                             End If
-                            'If SaveRequired Then
-                            '    oDoc.Save() 'try to save the file.
-                            'End If
-                            Exit Sub
-                        Catch ex As Exception
-                            MessageBox.Show("The exception was: " & ex.Message)
-                        End Try
-                    End If
+                        Else
+                            invCustomiPropSet.Add(oConstraints.Count, "CONSTRAINTCOUNT")
+                            SaveRequired = True
+                        End If
+                        'If SaveRequired Then
+                        '    oDoc.Save() 'try to save the file.
+                        'End If
+                        Exit Sub
+                    Catch ex As Exception
+                        MessageBox.Show("The exception was: " & ex.Message)
+                    End Try
                 End If
+                'End If
             End If
         End Sub
 
