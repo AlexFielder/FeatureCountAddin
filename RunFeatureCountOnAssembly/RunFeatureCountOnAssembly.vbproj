@@ -134,6 +134,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Pino-Sesame-Street-The-Count.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pino-Sesame-Street-The-Count16x16.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent>
