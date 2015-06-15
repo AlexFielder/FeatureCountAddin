@@ -137,6 +137,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Pino-Sesame-Street-The-Count16x16.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="SetupFeatureCount\setupFeatureCount.exe" />
+    <Content Include="SetupFeatureCount\SetupFeatureCount.iss" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent>
